@@ -44,6 +44,7 @@ class Doctor(db.Model):
     specialization = Column(String(50))
     phone = Column(String(20), nullable=False)
     email = Column(String(50), unique=True, nullable=False)
+    image = Column(String(200))
     join_date = Column(DateTime, default=datetime.now())
     active = Column(Boolean, default=True)
 
@@ -70,7 +71,7 @@ class Appointment(db.Model):
     doctor_id = Column(Integer, ForeignKey(Doctor.id), nullable=False)
     appoint_date = Column(DateTime, default=datetime.now())
     appoint_time = Column(Time)
-    status = Column(Boolean, default=True)
+    status = Column(Boolean, default=False)
 
     def __str__(self):
         return self.name
@@ -108,5 +109,14 @@ if __name__ == '__main__':
 
         u = User(name='Admin', username='admin', password=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),
                  user_role=UserRoleEnum.ADMIN)
+
+        doc1 = Doctor(name='Nguyễn Văn An', specialization='Nội Khoa', phone='094144153', email='annguyen@gmail.com')
+        doc2 = Doctor(name='Nguyễn Thị Mai Anh', specialization='Nhi Khoa', phone='07531359',
+                      email='maianh123@gmail.com')
+        doc3 = Doctor(name='Võ Quốc Pháp', specialization='Ngoại Khoa', phone='035416418', email='drquocphap@gmail.com')
+
         db.session.add(u)
+        db.session.add(doc1)
+        db.session.add(doc2)
+        db.session.add(doc3)
         db.session.commit()
