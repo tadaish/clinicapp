@@ -2,8 +2,8 @@ import enum
 
 from app import db, app
 from flask_login import UserMixin
-from sqlalchemy import Column, String, Integer, Float, Boolean, ForeignKey, Enum, DateTime, Time
-from datetime import datetime
+from sqlalchemy import Column, String, Integer, Float, Boolean, ForeignKey, Enum, Date
+from datetime import date
 from sqlalchemy.orm import relationship
 
 
@@ -45,7 +45,7 @@ class Doctor(db.Model):
     phone = Column(String(20), nullable=False)
     email = Column(String(50), unique=True, nullable=False)
     image = Column(String(200))
-    join_date = Column(DateTime, default=datetime.now())
+    join_date = Column(Date, default=date.today())
     active = Column(Boolean, default=True)
 
     def __str__(self):
@@ -58,8 +58,8 @@ class Patient(db.Model):
     gender = Column(Enum(GenderEnum))
     address = Column(String(200), nullable=False)
     phone = Column(String(20), nullable=False, unique=True)
-    email = Column(String(50), unique=True)
-    birth_day = Column(DateTime)
+    birth_day = Column(Date)
+    injury = Column(String(100), nullable=False)
 
     def __str__(self):
         return self.name
@@ -69,8 +69,7 @@ class Appointment(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     patient_id = Column(Integer, ForeignKey(Patient.id), nullable=False)
     doctor_id = Column(Integer, ForeignKey(Doctor.id), nullable=False)
-    appoint_date = Column(DateTime, default=datetime.now())
-    appoint_time = Column(Time)
+    appoint_date = Column(Date)
     status = Column(Boolean, default=False)
 
     def __str__(self):
@@ -95,7 +94,7 @@ class MedicalBill(db.Model):
     med_id = Column(Integer, ForeignKey(Medicine.id), nullable=False)
     symptoms = Column(String(100), nullable=False)
     diagnosis = Column(String(100), nullable=False)
-    created_date = Column(DateTime, default=datetime.now())
+    created_date = Column(Date, default=date.today())
 
     def __str__(self):
         return self.name
@@ -115,8 +114,13 @@ if __name__ == '__main__':
                       email='maianh123@gmail.com')
         doc3 = Doctor(name='Võ Quốc Pháp', specialization='Ngoại Khoa', phone='035416418', email='drquocphap@gmail.com')
 
+        pat1 = Patient(name='Trần Quốc Hùng', gender=GenderEnum.Male,
+                       address='3706 Ricky Plaza, Legrosport, OH 89868-5216', phone='031241269', birth_day='1999-8-20',
+                       injury='Sốt')
+
         db.session.add(u)
         db.session.add(doc1)
         db.session.add(doc2)
         db.session.add(doc3)
+        db.session.add(pat1)
         db.session.commit()
