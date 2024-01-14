@@ -1,0 +1,61 @@
+{% extends '/layout/base.html' %}
+{% block content %}
+{% if message %}
+<div class="alert alert-success mt-2" role="alert">
+    {{message}}
+</div>
+{% endif%}
+<legend class="fs-2  text-info text-center">ĐẶT LỊCH HẸN</legend>
+<div class="mt-5 container-fluid col-xl-5 col-md-5 col-xs-5 col-sm-3">
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Họ tên</label>
+            <input type="text" class="form-control" name="name" required>
+        </div>
+        <div class="row">
+            <div class="mb-3 col">
+                <label class="form-label">Số điện thoại</label>
+                <input type="text" class="form-control" name="phone" required>
+            </div>
+            <div class="mb-3 col">
+                <label class="form-label">Ngày sinh</label>
+                <input type="date" class="form-control" name="birth_day" required>
+            </div>
+        </div>
+        <div class="mb-3 ">
+            <label class="form-label">Giới tính</label>
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="gender">
+                <option value="Male">Nam</option>
+                <option value="Female">Nữ</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Địa chỉ</label>
+            <input type="text" class="form-control" name="address">
+        </div>
+        <div class="row">
+            <div class="mb-3 col">
+                <label class="form-label">Bác sĩ</label>
+                <select class="form-select form-select" aria-label=".form-select-sm example" name="doctor" required>
+                    {% for d in doctors%}
+                    <option value="{{d.id}}">{{d.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 col">
+                <label class="form-label">Ngày khám</label>
+                <input type="date" class="form-control" name="appoint_date" required>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Triệu chứng</label>
+            <textarea class="form-control" name="injury"></textarea>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Gửi</button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

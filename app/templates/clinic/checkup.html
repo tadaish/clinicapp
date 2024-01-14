@@ -1,0 +1,95 @@
+{% extends '/clinic/layout/base.html' %}
+{% block content %}
+
+<div class="card mt-5">
+    <div class="card-header text-center fs-4">
+        Phiếu Khám Bệnh
+    </div>
+    <form class="mt-5 container-fluid col-xl-9 col-md-10 col-xs-12 col-sm-12 card-body " method="post">
+        <div class="row">
+            <div class="mb-3 col">
+                <label class="form-label">Họ tên</label>
+                <input class="form-control" list="patientList" id="exampleDataList" placeholder="Type to search..."
+                       name="pat_name">
+                <datalist id="patientList">
+                    {% for p in patients %}
+                    <option value="{{p.name}}">{% endfor %}
+                </datalist>
+            </div>
+            <div class="mb-3 col">
+                <label for="datepicker" class="form-label">Ngày khám</label>
+                <input type="date" readonly class="form-control-plaintext" id="datepicker"
+                       value={{today}} name="exam_date">
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col">
+                <label class="form-label">Triệu chứng </label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="mb-3 col">
+                <label class="form-label">Chuẩn đoán</label>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col col-xl-6">
+                <label class="form-label">Thuốc</label>
+                <input class="form-control" list="medList" placeholder="Type to search..." name="name">
+                <datalist id="medList">
+                    {% for med in medicine %}
+                    <option value="{{med.name}}">
+                        {% endfor%}
+                </datalist>
+            </div>
+            <div class="mb-3 col col-xl-4">
+                <label class="form-label">Số lượng</label>
+                <input type="number" class="form-control" name="quantity">
+            </div>
+            <div class="mb-3 ">
+                <a class="btn btn-outline-success" type="submit">Thêm</a>
+            </div>
+
+        </div>
+
+
+        <div class="card container mb-3">
+
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Thuốc</th>
+                    <th scope="col">Đơn vị</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Cách dùng</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    {% for item in data_list %}
+                    <th scope="row">{{loop.index}}</th>
+                    <td>{{item.name}}</td>
+                    <td>{{item.unit}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.usage}}</td>
+                    {% endfor%}
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Hoàn thành</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+{% endblock %}
